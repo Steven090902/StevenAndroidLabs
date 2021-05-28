@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Steven\'s Android Labs</string>
-    <string name="hello_message">こんにちは世界</string>
     <string name="button_message">私はボタンです</string>
+    <string name="hello_message">あなたはストレスを感じていますか？</string>
+    <string name="mycheckbox_yes">" はい"</string>
+    <string name="editmessage">私はEditTextです</string>
+    <string name="hinttext">ここに何か書いてください</string>
+    <string name="mycheckbox_no">番号</string>
+    <string name="switch1">いいえ...そうではありません</string>
+    <string name="switch2">もう生きたくない</string>
+    <string name="radiobutton1">いいえ、私は違います</string>
+    <string name="radiobutton2">はいはいはいはい</string>
 </resources>

@@ -1,5 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Steven\'s Android Labs</string>
-    <string name="hello_message">Hello World!</string>
+    <string name="hello_message">Are you stress?</string>
     <string name="button_message">I\'m a button</string>
+    <string name="editmessage" tools:ignore="MissingTranslation">I\'m an EditText</string>
+    <string name="hinttext" tools:ignore="MissingTranslation">Write something here</string>
+    <string name="mycheckbox_yes">Yes</string>
+    <string name="switch1">No...not really</string>
+    <string name="radiobutton1">No, I\'m not</string>
+
 </resources>

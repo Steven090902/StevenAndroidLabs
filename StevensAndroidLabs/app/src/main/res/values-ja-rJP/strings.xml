@@ -11,4 +11,8 @@
     <string name="switch2">もう生きたくない</string>
     <string name="radiobutton1">いいえ、私は違います</string>
     <string name="radiobutton2">はいはいはいはい</string>
+    <string name="button1">ボタン1</string>
+    <string name="button2">ボタン2</string>
+    <string name="button3">ボタン3</string>
+    <string name="spin_message">スピンフラグ</string>
 </resources>

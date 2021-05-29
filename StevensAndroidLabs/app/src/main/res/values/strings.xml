@@ -7,5 +7,9 @@
     <string name="mycheckbox_yes">Yes</string>
     <string name="switch1">No...not really</string>
     <string name="radiobutton1">No, I\'m not</string>
+    <string name="spin_message">Spin flag</string>
+    <string name="button1">Button 1</string>
+    <string name="button2">Button 2</string>
+    <string name="button3">Button 3</string>
 
 </resources>

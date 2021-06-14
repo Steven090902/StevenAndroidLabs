@@ -3,7 +3,7 @@
     package="algonquin.cst2335.lean0016">
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
     <uses-feature android:name="android.software.leanback" android:required="true"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <application
         android:allowBackup="true"
@@ -11,14 +11,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.StevensAndroidLabs">
-        <activity android:name=".SecondActivity"></activity>
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".ChatRoom">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

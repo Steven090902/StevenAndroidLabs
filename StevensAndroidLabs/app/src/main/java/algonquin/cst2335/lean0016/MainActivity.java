@@ -33,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(clk -> {
             String password = et.getText().toString();
 
-            checkPasswordComplexity(password);
+            if(checkPasswordComplexity(password))
+                tv.setText("Your password meet the requirements!");
+            else
+             tv.setText("You shall not pass!");
         });
     }
 
@@ -48,28 +51,37 @@ public class MainActivity extends AppCompatActivity {
         boolean foundUpperCase, foundLowerCase, foundNumber, foundSpecial;
         foundUpperCase = foundLowerCase = foundNumber = foundSpecial = false;
 
+        for(int i = 0; i < pw.length(); i++)
+        {
+            char c = pw.charAt(i);
+            if(Character.isUpperCase(c)) foundUpperCase = true;
+            else if(Character.isLowerCase(c)) foundLowerCase = true;
+            else if(isSpecialCharacter(c)) foundSpecial = true;
+            else if(isDigit(c)) foundNumber = true;
+        }
+
         if (!foundUpperCase) {
-            tv.setText("You shall not pass!");
+
             Toast.makeText(this, "Missing UPPERCASE letter!", Toast.LENGTH_LONG).show();
             return false;
         }
         else if (!foundLowerCase) {
-            tv.setText("You shall not pass!");
+
             Toast.makeText(this, "Missing LOWERCASE letter!", Toast.LENGTH_LONG).show();
             return false;
         }
         else if (!foundNumber) {
-            tv.setText("You shall not pass!");
+
             Toast.makeText(this, "Missing NUMBERS!", Toast.LENGTH_LONG).show();
             return false;
         }
         else if (!foundSpecial) {
-            tv.setText("You shall not pass!");
+
             Toast.makeText(this, "Missing SPECIAL letters", Toast.LENGTH_LONG).show();
             return false;
         }
         else {
-            tv.setText("Your password met the requirements!");
+
             tv.setTextColor(getResources().getColor(R.color.Green));
             return true; //only get here if they're all true
         }
@@ -95,4 +107,23 @@ public class MainActivity extends AppCompatActivity {
                 return false;
         }
     }
+    boolean isDigit(char c){
+        switch (c){
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
 }

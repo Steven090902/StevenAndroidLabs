@@ -38,13 +38,12 @@ public class MainActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Test
+
     public void mainActivityTest() {
         ViewInteraction appCompatEditText = onView(withId(R.id.editText));
         appCompatEditText.perform(replaceText("12345"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(withId(R.id.editText));
-
         appCompatEditText2.perform(pressImeActionButton());
 
         ViewInteraction materialButton = onView(withId(R.id.button));
@@ -82,7 +81,7 @@ public class MainActivityTest {
         //find the view
         ViewInteraction appCompatEditText = onView( withId(R.id.editText));
         //type in password123#$*
-        appCompatEditText.perform(replaceText("password#$*"));
+        appCompatEditText.perform(replaceText("password123#$*"));
 
         //find the button
         ViewInteraction materialButton = onView(withId(R.id.button));
@@ -103,7 +102,7 @@ public class MainActivityTest {
         //find the view
         ViewInteraction appCompatEditText = onView( withId(R.id.editText));
         //type in password123#$*
-        appCompatEditText.perform(replaceText("password#$*"));
+        appCompatEditText.perform(replaceText("123#$*"));
 
         //find the button
         ViewInteraction materialButton = onView(withId(R.id.button));
@@ -145,7 +144,7 @@ public class MainActivityTest {
         //find the view
         ViewInteraction appCompatEditText = onView( withId(R.id.editText));
         //type in password123#$*
-        appCompatEditText.perform(replaceText("password#$*"));
+        appCompatEditText.perform(replaceText("password123"));
 
         //find the button
         ViewInteraction materialButton = onView(withId(R.id.button));
@@ -156,5 +155,26 @@ public class MainActivityTest {
         ViewInteraction textView = onView(withId(R.id.textView));
         //check the text
         textView.check(matches(withText("You shall not pass!")));
+    }
+    /**
+     * This function is for testing the code
+     * Test the if the password meet all the requirements
+     */
+    @Test
+    public void testMeetRequirement(){
+        //find the view
+        ViewInteraction appCompatEditText = onView( withId(R.id.editText));
+        //type in password123#$*
+        appCompatEditText.perform(replaceText("Password123#$*"));
+        //find the button
+        ViewInteraction materialButton = onView(withId(R.id.button));
+        //click the button
+        materialButton.perform(click());
+
+        //find the text view
+        ViewInteraction textView = onView(withId(R.id.textView));
+        //check the text
+        textView.check(matches(withText("Your password meet the requirements!")));
+
     }
 }

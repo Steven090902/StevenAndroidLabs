@@ -23,17 +23,19 @@ import java.util.Locale;
 public class ChatRoom extends AppCompatActivity {
     MyChatAdapter adapter;
     ArrayList<ChatMessage> messages = new ArrayList<>();
+    RecyclerView chatList = findViewById(R.id.myrecycler);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.chatlayout);
 
-        RecyclerView chatList = findViewById(R.id.myrecycler);
+        MyOpenHelper opener = new MyOpenHelper();
+
         EditText typedMessage = findViewById(R.id.editMessage);
         Button send = findViewById(R.id.sendbutton);
         Button rec  = findViewById(R.id.receiveButton);
 
+        
 
         chatList.setAdapter(adapter = new MyChatAdapter());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);

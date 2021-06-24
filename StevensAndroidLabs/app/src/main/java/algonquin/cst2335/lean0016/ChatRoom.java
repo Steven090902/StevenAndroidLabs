@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.LogRecord;
 
 public class ChatRoom extends AppCompatActivity {
     MyChatAdapter adapter;
@@ -101,6 +100,10 @@ public class ChatRoom extends AppCompatActivity {
 
                 messageText = itemView.findViewById(R.id.message);
                 timetext = itemView.findViewById(R.id.time);
+            }
+
+            public int getAbsoluteAdapterPosition() {
+                return 0;
             }
 
             public void setPosition(int p){

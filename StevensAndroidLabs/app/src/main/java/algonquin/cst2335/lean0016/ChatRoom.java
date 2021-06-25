@@ -198,6 +198,12 @@ public class ChatRoom extends AppCompatActivity {
             return id;
         }
 
+        public ChatMessage(String messages, int sendOrReceive, String timeSent) {
+            this.messages = messages;
+            this.sendOrReceive = sendOrReceive;
+            this.timeSent = timeSent;
+
+        }
         public ChatMessage(String messages, int sendOrReceive, String timeSent, long id) {
             this.messages = messages;
             this.sendOrReceive = sendOrReceive;

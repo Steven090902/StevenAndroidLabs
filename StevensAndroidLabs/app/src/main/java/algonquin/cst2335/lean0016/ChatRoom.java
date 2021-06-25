@@ -67,7 +67,7 @@ public class ChatRoom extends AppCompatActivity {
 
         send.setOnClickListener(click -> {
             String currentDataandTime = sdf.format(new Date());
-            ChatMessage thisMessage = new ChatMessage(typedMessage.getText().toString(), 1, currentDataandTime,_idCol);
+            ChatMessage thisMessage = new ChatMessage(typedMessage.getText().toString(), 1, currentDataandTime);
 
             ContentValues newRow = new ContentValues();
             newRow.put(MyOpenHelper.col_message, thisMessage.getMessage());
@@ -85,7 +85,7 @@ public class ChatRoom extends AppCompatActivity {
 
         rec.setOnClickListener(click -> {
             String currentDataandTime = sdf.format(new Date());
-            ChatMessage thisMessage = new ChatMessage(typedMessage.getText().toString(), 2, currentDataandTime,_idCol);
+            ChatMessage thisMessage = new ChatMessage(typedMessage.getText().toString(), 2, currentDataandTime);
 
             ContentValues newRow = new ContentValues();
             newRow.put(MyOpenHelper.col_message, thisMessage.getMessage());
@@ -126,11 +126,19 @@ public class ChatRoom extends AppCompatActivity {
                             messages.remove(position);
                             adapter.notifyItemRemoved(position);
 
+                            db.delete(MyOpenHelper.TABLE_NAME, "_id=?", new String[]{
+                                    Long.toString(removedMessage.getId())
+                            });
+
                             Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
                                     .setAction("Undo", clk -> {
                                         messages.add(position, removedMessage);
                                         adapter.notifyItemInserted(position);
 
+                                        db.execSQL(" Insert into " + MyOpenHelper.TABLE_NAME + " values('" + removedMessage.getId() +
+                                                "','" + removedMessage.getMessage() +
+                                                "','" + removedMessage.getSendOrReceive() +
+                                                "','" + removedMessage.getTimeSent()+ "');");
                                     })
                                     .show();
                         })
@@ -204,6 +212,7 @@ public class ChatRoom extends AppCompatActivity {
             this.timeSent = timeSent;
 
         }
+
         public ChatMessage(String messages, int sendOrReceive, String timeSent, long id) {
             this.messages = messages;
             this.sendOrReceive = sendOrReceive;

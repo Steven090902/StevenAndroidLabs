@@ -11,5 +11,6 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/my_statusbar</item>
         <!-- Customize your theme here. -->
         <item name="android:textColor">@color/my_text</item>
+        <item name="android:background">#A1A1A1</item>
     </style>
 </resources>

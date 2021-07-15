@@ -1,61 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textview"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_message" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:text="@string/button_message" />
-
-    <CheckBox
-        android:id="@+id/mycheckbox_yes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mycheckbox_yes" />
-
-    <Switch
-        android:id="@+id/myswitch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/switch1" />
-
-    <RadioButton
-        android:id="@+id/radiobutton1"
-        android:layout_width="148dp"
-        android:layout_height="wrap_content"
-        android:text="@string/radiobutton1" />
+        android:text="Enter a city name:" />
 
     <EditText
-        android:id="@+id/myedittext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/hinttext"
-        android:text="@string/editmessage" />
-
-    <ImageButton
-        android:src="@drawable/logo_algonquin"
-        android:id="@+id/myimagebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:id="@+id/myimg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/logo_algonquin" />
+        android:layout_height="wrap_content"
+        android:id="@+id/editText" />
+    <Button
+        android:id="@+id/theButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get forecast" />
 
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Temp goes here" />
+
+    <TextView
+        android:id="@+id/maxTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Max goes here" />
+
+    <TextView
+        android:id="@+id/minTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Min goes here" />
+
+    <TextView
+        android:id="@+id/humidity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Humidity goes here" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description goes here" />
 
 </LinearLayout>

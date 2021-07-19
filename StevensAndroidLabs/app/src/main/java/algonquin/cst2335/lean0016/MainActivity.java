@@ -54,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
     ImageView iv;
     Bitmap image = null;
 
+    String currentTemp = null;
+    String minTemp = null;
+    String maxTemp = null;
+    String humidity = null;
+    String description = null;
+    String IconName = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,59 +91,48 @@ public class MainActivity extends AppCompatActivity {
 
                     stringURL = "https://api.openweathermap.org/data/2.5/weather?q="
                             + URLEncoder.encode(cityName, "UTF-8")
-                            + "&appid=7e943c97096a9784391a981c4d878b22&units=metric";
+                            + "&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
 
 
                     URL url = new URL(stringURL);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
-                    /*XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                     factory.setNamespaceAware(false);
                     XmlPullParser xpp = factory.newPullParser();
-                    xpp.setInput( in  , "UTF-8");
+                    xpp.setInput(in, "UTF-8");
 
-                    String currentTemp;
-                    String minTemp;
-                    String maxTemp;
-                    String value;
 
-                    while(xpp.next() != XmlPullParser.END_DOCUMENT)
-                    {
-                        switch(xpp.getEventType())
-                        {
+                    while (xpp.next() != XmlPullParser.END_DOCUMENT) {
+                        switch (xpp.getEventType()) {
                             case XmlPullParser.START_DOCUMENT:
                                 break;
                             case XmlPullParser.END_DOCUMENT:
                                 break;
-                            case   XmlPullParser.START_TAG:
+                            case XmlPullParser.START_TAG:
 
-                                if(xpp.getName().equals("temperature"))
-                                {
+                                if (xpp.getName().equals("temperature")) {
                                     currentTemp = xpp.getAttributeValue(null, "value");
                                     minTemp = xpp.getAttributeValue(null, "min");
                                     maxTemp = xpp.getAttributeValue(null, "max");
-                                }
-                                else if(xpp.getName().equals("weather"))
-                                {
-                                    value = xpp.getAttributeValue(null, "value");
-                                }
-                                else if(xpp.getName().equals("Longitude")) {
 
-                                    xpp.next();
-                                    xpp.getText();
-                                    xpp.nextText();
+                                } else if (xpp.getName().equals("weather")) {
+                                    description = xpp.getAttributeValue(null, "value");
+                                    IconName = xpp.getAttributeValue(null, "icon");
+                                } else if (xpp.getName().equals("humidity")) {
 
+                                    humidity = xpp.getAttributeValue(null, "value");
                                 }
                                 break;
                             case XmlPullParser.END_TAG:
                                 break;
-                            case   XmlPullParser.TEXT:
+                            case XmlPullParser.TEXT:
                                 break;
                         }
-                    }*/
+                    }
 
-                    String text = (new BufferedReader(
+                    /*String text = (new BufferedReader(
                             new InputStreamReader(in, StandardCharsets.UTF_8)))
                             .lines()
                             .collect(Collectors.joining("\n"));
@@ -155,39 +151,40 @@ public class MainActivity extends AppCompatActivity {
                     int humitidy = main.getInt("humidity");
                     String description = obj0.getString("description");
                     String iconName = obj0.getString("icon");
-
                     iv = findViewById(R.id.icon);
-                    URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
+
+*/
+                    iv = findViewById(R.id.icon);
+                    URL imgUrl = new URL("https://openweathermap.org/img/w/" + IconName + ".png");
                     HttpURLConnection connection = (HttpURLConnection) imgUrl.openConnection();
                     connection.connect();
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         image = BitmapFactory.decodeStream(connection.getInputStream());
-                        image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName + ".png", Context.MODE_PRIVATE));
+                        image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(IconName + ".png", Context.MODE_PRIVATE));
                     }
-
-
                     runOnUiThread(() -> {
                         TextView tv = findViewById(R.id.temp);
-                        tv.setText("The current temperature is: " + current);
+                        tv.setText("The current temperature is: " + currentTemp);
                         tv.setVisibility(View.VISIBLE);
 
                         tv = findViewById(R.id.minTemp);
-                        tv.setText("The minimum temperature is: " + min);
+                        tv.setText("The minimum temperature is: " + minTemp);
                         tv.setVisibility(View.VISIBLE);
 
                         tv = findViewById(R.id.maxTemp);
-                        tv.setText("The maximum temperature is: " + max);
+                        tv.setText("The maximum temperature is: " + maxTemp);
                         tv.setVisibility(View.VISIBLE);
 
                         tv = findViewById(R.id.humidity);
-                        tv.setText("The humidity is: " + humitidy + "%");
+                        tv.setText("The humidity is: " + humidity + "%");
                         tv.setVisibility(View.VISIBLE);
 
                         tv = findViewById(R.id.description);
                         tv.setText(description);
                         tv.setVisibility(View.VISIBLE);
 
+                        iv.findViewById(R.id.icon);
                         iv.setImageBitmap(image);
                         iv.setVisibility(View.VISIBLE);
 
@@ -196,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
                     });
 
-                } catch (IOException | JSONException  e) {
+                } catch (IOException | XmlPullParserException e) {
                     Log.e("Connection error: ", e.getMessage());
                 }
 

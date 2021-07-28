@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"><![CDATA[
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar"/>
+    ]]>
     <item
         android:id="@+id/hide_views"
         android:icon="@drawable/clear"
         android:title="Clear weather"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/increase"
+        android:icon="@drawable/increase"
+        android:title="Increase Font Size"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/decrease"
+        android:icon="@drawable/decrease"
+        android:title="Decrease Font Size"
+        app:showAsAction="always" />
 
-        @android:drawable/btn_dialog
+    @android:drawable/btn_dialog
 </menu>

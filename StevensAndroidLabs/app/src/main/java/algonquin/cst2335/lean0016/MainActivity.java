@@ -1,56 +1,41 @@
 package algonquin.cst2335.lean0016;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
-import android.app.MediaRouteButton;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Context;
-import android.widget.Toolbar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.google.android.material.navigation.NavigationView;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
+
 
 public class MainActivity extends AppCompatActivity {
     private String stringURL;
@@ -60,88 +45,61 @@ public class MainActivity extends AppCompatActivity {
     ImageView iv;
     Bitmap image = null;
 
-    String currentTemp;
-    String minTemp;
-    String maxTemp;
-    String humidity;
-    String description;
-    String IconName;
-TextView currentView, minView, maxView, humidityView, descView;
+
+    String currentTemp,minTemp,maxTemp,humidity,description,IconName;
+    TextView currentView, minView, maxView, humidityView, descView;
     EditText cityText;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Toolbar myToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-
-        tv = findViewById(R.id.textView);
-        btn = findViewById(R.id.forecastButton);
-        edit = findViewById(R.id.city_text);
+    private void runForecast(String cityName) {
+        Executor newThread = Executors.newSingleThreadExecutor();
+        newThread.execute(() -> {
 
 
-        Button forecastBtn = findViewById(R.id.forecastButton);
-        cityText = findViewById(R.id.city_text);
+            try {
 
-        forecastBtn.setOnClickListener((click) -> {
-            String cityName = cityText.getText().toString();
-
-            AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Getting forecast")
-                    .setMessage("We're calling people in " + cityName + " to look outside their windows and tell us what's the weather like over there.")
-                    .setView(new ProgressBar(MainActivity.this))
-                    .show();
-
-            Executor newThread = Executors.newSingleThreadExecutor();
-            newThread.execute(() -> {
+                stringURL = "https://api.openweathermap.org/data/2.5/weather?q="
+                        + URLEncoder.encode(cityName, "UTF-8")
+                        + "&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
 
 
-                try {
+                URL url = new URL(stringURL);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
-                    stringURL = "https://api.openweathermap.org/data/2.5/weather?q="
-                            + URLEncoder.encode(cityName, "UTF-8")
-                            + "&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
-
-
-                    URL url = new URL(stringURL);
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(false);
-                    XmlPullParser xpp = factory.newPullParser();
-                    xpp.setInput(in, "UTF-8");
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(false);
+                XmlPullParser xpp = factory.newPullParser();
+                xpp.setInput(in, "UTF-8");
 
 
 
-                    while (xpp.next() != XmlPullParser.END_DOCUMENT) {
-                        switch (xpp.getEventType()) {
-                            case XmlPullParser.START_DOCUMENT:
-                                break;
-                            case XmlPullParser.END_DOCUMENT:
-                                break;
-                            case XmlPullParser.START_TAG:
+                while (xpp.next() != XmlPullParser.END_DOCUMENT) {
+                    switch (xpp.getEventType()) {
+                        case XmlPullParser.START_DOCUMENT:
+                            break;
+                        case XmlPullParser.END_DOCUMENT:
+                            break;
+                        case XmlPullParser.START_TAG:
 
-                                if (xpp.getName().equals("temperature")) {
-                                    currentTemp = xpp.getAttributeValue(null, "value");
-                                    minTemp = xpp.getAttributeValue(null, "min");
-                                    maxTemp = xpp.getAttributeValue(null, "max");
+                            if (xpp.getName().equals("temperature")) {
+                                currentTemp = xpp.getAttributeValue(null, "value");
+                                minTemp = xpp.getAttributeValue(null, "min");
+                                maxTemp = xpp.getAttributeValue(null, "max");
 
-                                } else if (xpp.getName().equals("weather")) {
-                                    description = xpp.getAttributeValue(null, "value");
-                                    IconName = xpp.getAttributeValue(null, "icon");
-                                } else if (xpp.getName().equals("humidity")) {
+                            } else if (xpp.getName().equals("weather")) {
+                                description = xpp.getAttributeValue(null, "value");
+                                IconName = xpp.getAttributeValue(null, "icon");
+                            } else if (xpp.getName().equals("humidity")) {
 
-                                    humidity = xpp.getAttributeValue(null, "value");
-                                }
-                                break;
-                            case XmlPullParser.END_TAG:
-                                break;
-                            case XmlPullParser.TEXT:
-                                break;
-                        }
+                                humidity = xpp.getAttributeValue(null, "value");
+                            }
+                            break;
+                        case XmlPullParser.END_TAG:
+                            break;
+                        case XmlPullParser.TEXT:
+                            break;
                     }
+                }
 
                     /*String text = (new BufferedReader(
                             new InputStreamReader(in, StandardCharsets.UTF_8)))
@@ -162,7 +120,7 @@ TextView currentView, minView, maxView, humidityView, descView;
                     int humitidy = main.getInt("humidity");
                     String description = obj0.getString("description");
                     String iconName = obj0.getString("icon");
-
+*/
                     URL imgUrl = new URL("https://openweathermap.org/img/w/" + IconName + ".png");
                     HttpURLConnection connection = (HttpURLConnection) imgUrl.openConnection();
                     connection.connect();
@@ -170,58 +128,100 @@ TextView currentView, minView, maxView, humidityView, descView;
                     if (responseCode == 200) {
                         image = BitmapFactory.decodeStream(connection.getInputStream());
                         image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(IconName + ".png", Context.MODE_PRIVATE));
-                    }*/
+                    }
+
+                runOnUiThread(() -> {
+                    currentView = findViewById(R.id.temp);
+                    currentView.setText("The current temperature is: " + currentTemp);
+                    currentView.setVisibility(View.VISIBLE);
+
+                    minView = findViewById(R.id.minTemp);
+                    minView.setText("The minimum temperature is: " + minTemp);
+                    minView.setVisibility(View.VISIBLE);
+
+                    maxView = findViewById(R.id.maxTemp);
+                    maxView.setText("The maximum temperature is: " + maxTemp);
+                    maxView.setVisibility(View.VISIBLE);
+
+                    humidityView = findViewById(R.id.humidity);
+                    humidityView.setText("The humidity is: " + humidity + "%");
+                    humidityView.setVisibility(View.VISIBLE);
+
+                    descView = findViewById(R.id.description);
+                    descView.setText(description);
+                    descView.setVisibility(View.VISIBLE);
+
+                    iv = findViewById(R.id.icon);
+                    iv.setImageBitmap(image);
+                    iv.setVisibility(View.VISIBLE);
 
 
-                    runOnUiThread(() -> {
-                        currentView = findViewById(R.id.temp);
-                        currentView.setText("The current temperature is: " + currentTemp);
-                        currentView.setVisibility(View.VISIBLE);
-                        iv = findViewById(R.id.icon);
-                        minView = findViewById(R.id.minTemp);
-                        minView.setText("The minimum temperature is: " + minTemp);
-                        minView.setVisibility(View.VISIBLE);
+                });
 
-                        maxView = findViewById(R.id.maxTemp);
-                        maxView.setText("The maximum temperature is: " + maxTemp);
-                        maxView.setVisibility(View.VISIBLE);
-
-                       tv.findViewById(R.id.humidity);
-                        tv.setText("The humidity is: " + humidity + "%");
-                        tv.setVisibility(View.VISIBLE);
-
-                        tv.findViewById(R.id.description);
-                        tv.setText(description);
-                        tv.setVisibility(View.VISIBLE);
-
-                        iv.setImageBitmap(image);
-                        iv.setVisibility(View.VISIBLE);
-
-                        dialog.hide();
+            } catch (IOException | XmlPullParserException e) {
+                Log.e("Connection error: ", e.getMessage());
+            }
 
 
-                    });
+        });
+    }
 
-                } catch (IOException | XmlPullParserException e) {
-                    Log.e("Connection error: ", e.getMessage());
-                }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
+        tv = findViewById(R.id.textView);
+        btn = findViewById(R.id.forecastButton);
+        edit = findViewById(R.id.city_text);
 
 
-            });
+        Button forecastBtn = findViewById(R.id.forecastButton);
+        cityText = findViewById(R.id.city_text);
+
+
+        forecastBtn.setOnClickListener((click) -> {
+                    String cityName = cityText.getText().toString();
+                    myToolbar.getMenu().add(0, 5, 0, cityName).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                    runForecast(cityName);
+
+            AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Getting forecast")
+                    .setMessage("We're calling people in " + cityName + " to look outside their windows and tell us what's the weather like over there.")
+                    .setView(new ProgressBar(MainActivity.this))
+                    .show();
+                    runForecast(cityName);
+
+            dialog.hide();
+
+
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_acitvity_actions, menu);
+
         return true;
     }
+
+    float oldSize = 14;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case 5:
+                String cityName = item.getTitle().toString();
+                runForecast(cityName);
+                break;
+
             case R.id.hide_views:
                 currentView.setVisibility(View.INVISIBLE);
                 maxView.setVisibility(View.INVISIBLE);
@@ -231,12 +231,34 @@ TextView currentView, minView, maxView, humidityView, descView;
                 iv.setVisibility(View.INVISIBLE);
                 cityText.setText("");
                 break;
+
+            case R.id.increase:
+                oldSize++;
+                currentView.setTextSize(oldSize);
+                maxView.setTextSize(oldSize);
+                minView.setTextSize(oldSize);
+                humidityView.setTextSize(oldSize);
+                descView.setTextSize(oldSize);
+                cityText.setTextSize(oldSize);
+                break;
+
+            case R.id.decrease:
+                oldSize = Float.max(oldSize-1, 5);
+                currentView.setTextSize(oldSize);
+                maxView.setTextSize(oldSize);
+                minView.setTextSize(oldSize);
+                humidityView.setTextSize(oldSize);
+                descView.setTextSize(oldSize);
+                cityText.setTextSize(oldSize);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setSupportActionBar(Toolbar myToolbar) {
-    }
+
+
+
 }
 
 

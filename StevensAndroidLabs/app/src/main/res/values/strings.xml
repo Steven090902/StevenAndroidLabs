@@ -7,5 +7,7 @@
     <string name="mycheckbox_yes">Yes</string>
     <string name="switch1">No...not really</string>
     <string name="radiobutton1">No, I\'m not</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 
 </resources>

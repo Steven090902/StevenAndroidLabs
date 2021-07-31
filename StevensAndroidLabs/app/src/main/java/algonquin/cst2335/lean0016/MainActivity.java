@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 runOnUiThread(() -> {
-                    currentView = findViewById(R.id.temp);
+
                     currentView.setText("The current temperature is: " + currentTemp);
                     currentView.setVisibility(View.VISIBLE);
 
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         tv = findViewById(R.id.textView);
         btn = findViewById(R.id.forecastButton);
         edit = findViewById(R.id.city_text);
-
+        currentView = findViewById(R.id.temp);
 
         Button forecastBtn = findViewById(R.id.forecastButton);
         cityText = findViewById(R.id.city_text);
